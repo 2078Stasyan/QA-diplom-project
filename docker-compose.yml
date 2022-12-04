@@ -1,0 +1,38 @@
+version: '3.7'
+services:
+
+  mysql:
+    image: mysql:8.0.30-oracle
+    ports:
+      - '3306:3306'
+    volumes:
+      - ./data_mysql:/var/lib/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=yes
+      - MYSQL_DATABASE=app
+      - MYSQL_USER=app
+      - MYSQL_PASSWORD=pass
+
+
+  postgres:
+    image: postgres:latest
+    ports:
+      - '5432:5432'
+    volumes:
+      - ./dataPostgres:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=app
+      - POSTGRES_PASSWORD=pass
+      - POSTGRES_USER=app
+
+
+  nodejs:
+    image: node:alpine3.16
+    working_dir: /home/node/app
+    volumes:
+      - ./gate-simulator:/home/node/app
+    expose:
+      - '9999'
+    ports:
+      - '9999:9999'
+    command: 'npm start'
