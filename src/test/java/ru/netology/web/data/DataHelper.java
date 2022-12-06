@@ -2,7 +2,6 @@ package ru.netology.web.data;
 
 import com.github.javafaker.Faker;
 import lombok.Value;
-
 import java.util.Locale;
 
 public class DataHelper {
@@ -75,7 +74,7 @@ public class DataHelper {
     public static CardInformation getWrongYear() {
         return new CardInformation(
                 cardNumber.getApprovedCardNumber(),
-                dataGenerator.wrongYear().getYear(),
+                dataGenerator.wrongYear(50).getYear(),
                 dataGenerator.shiftMonth(2).getMonth(),
                 enfaker.name().fullName(),
                 enfaker.number().digits(3));
@@ -85,7 +84,7 @@ public class DataHelper {
         return new CardInformation(
                 cardNumber.getApprovedCardNumber(),
                 dataGenerator.shiftYear(3).getYear(),
-                dataGenerator.wrongMonth().getMonth(),
+                dataGenerator.wrongMonth(35).getMonth(),
                 enfaker.name().fullName(),
                 enfaker.number().digits(3));
     }
@@ -134,15 +133,6 @@ public class DataHelper {
                 dataGenerator.shiftMonth(2).getMonth(),
                 rufaker.name().fullName(),
                 "000");
-    }
-
-    public static CardInformation getMonthEmpty() {
-        return new CardInformation(
-                cardNumber.getApprovedCardNumber(),
-                dataGenerator.shiftYear(2).getYear(),
-                " ",
-                enfaker.name().fullName(),
-                enfaker.number().digits(3));
     }
 
     @Value

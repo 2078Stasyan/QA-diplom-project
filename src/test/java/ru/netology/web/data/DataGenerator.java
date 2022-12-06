@@ -1,13 +1,10 @@
 package ru.netology.web.data;
 
-import com.github.javafaker.Faker;
 import lombok.Value;
-
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 public class DataGenerator {
-    static Faker faker = new Faker();
     private final LocalDate actualData = LocalDate.now();
     private final DateTimeFormatter formatterYears = DateTimeFormatter.ofPattern("yy");
     private final DateTimeFormatter formatterMonth = DateTimeFormatter.ofPattern("MM");
@@ -17,8 +14,9 @@ public class DataGenerator {
         return new Year(formatterYears.format(newDate));
     }
 
-    public Year wrongYear() {
-        return new Year(Integer.toString(faker.number().numberBetween(28, 99)));
+    public Year wrongYear(int numberOfWrongY) {
+        LocalDate wrongDate = actualData.plusYears(numberOfWrongY);
+        return new Year(formatterYears.format(wrongDate));
     }
 
     public Month shiftMonth(int numberOfMonths) {
@@ -26,8 +24,9 @@ public class DataGenerator {
         return new Month(formatterMonth.format(newDate));
     }
 
-    public Month wrongMonth() {
-        return new Month(Integer.toString(faker.number().numberBetween(13, 99)));
+    public Month wrongMonth(int numberOfWrongM) {
+        LocalDate wrongDate = actualData.plusYears(numberOfWrongM);
+        return new Month(formatterYears.format(wrongDate));
     }
 
     @Value
