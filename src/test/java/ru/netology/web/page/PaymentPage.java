@@ -3,7 +3,6 @@ package ru.netology.web.page;
 import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.SelenideElement;
 import ru.netology.web.data.DataHelper;
-
 import java.time.Duration;
 
 import static com.codeborne.selenide.Condition.visible;

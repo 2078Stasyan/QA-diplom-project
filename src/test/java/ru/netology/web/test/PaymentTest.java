@@ -3,15 +3,17 @@ package ru.netology.web.test;
 import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.logevents.SelenideLogger;
 import io.qameta.allure.selenide.AllureSelenide;
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.DisplayName;
 import ru.netology.web.data.DataHelper;
 import ru.netology.web.data.SQLunits;
 import ru.netology.web.page.TourPage;
 
 import static com.codeborne.selenide.Selenide.open;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static ru.netology.web.data.SQLunits.getPaymentId;
-import static ru.netology.web.data.SQLunits.getStatusForPaymentWithDebitCard;
 
 public class PaymentTest {
     @BeforeAll
@@ -37,37 +39,35 @@ public class PaymentTest {
 
     @DisplayName("1.Successful card purchase.")
     @Test
-    void ConfirmPaymentApprovedCard() {
+    void confirmPaymentApprovedCard() {
         var tourPage = new TourPage();
         var payCard = tourPage.payCard();
         var approvedCardInformation = DataHelper.getValidCard();
         payCard.enterCardData(approvedCardInformation);
         payCard.successfulCardPayment();
 
-        var paymentId = getPaymentId();
         var expectedStatus = "APPROVED";
-        var actualStatus = getStatusForPaymentWithDebitCard(paymentId);
+        var actualStatus = SQLunits.getDebitPaymentStatus();
         assertEquals(expectedStatus, actualStatus);
     }
 
     @DisplayName("2.Card - Declined card.")
     @Test
-    public void PayDeclinedCard() {
+    public void payDeclinedCard() {
         var tourPage = new TourPage();
         var payCard = tourPage.payCard();
         var declinedCardInformation = DataHelper.getDeclinedCard();
         payCard.enterCardData(declinedCardInformation);
         payCard.notSuccessfulCardPayment();
 
-        var paymentId = getPaymentId();
         var expectedStatus = "DECLINED";
-        var actualStatus = getStatusForPaymentWithDebitCard(paymentId);
+        var actualStatus = SQLunits.getDebitPaymentStatus();
         assertEquals(expectedStatus, actualStatus);
     }
 
     @DisplayName("3.Card - All blank data.")
     @Test
-    public void PayEmptyForm() {
+    public void payEmptyForm() {
         var tourPage = new TourPage();
         var payCard = tourPage.payCard();
         var emptyCardInformation = DataHelper.getAllFieldsEmpty();
@@ -77,7 +77,7 @@ public class PaymentTest {
 
     @DisplayName("4.Card - Expired year.")
     @Test
-    public void PayExpiredYear() {
+    public void payExpiredYear() {
         var tourPage = new TourPage();
         var payCard = tourPage.payCard();
         var invalidCard = DataHelper.getExpiredYear();
@@ -87,7 +87,7 @@ public class PaymentTest {
 
     @DisplayName("5.Card - Expired month.")
     @Test
-    public void PayExpiredMonth() {
+    public void payExpiredMonth() {
         var tourPage = new TourPage();
         var payCard = tourPage.payCard();
         var invalidCard = DataHelper.getExpiredMonth();
@@ -97,7 +97,7 @@ public class PaymentTest {
 
     @DisplayName("6.Card - Invalid card number.")
     @Test
-    public void PayInvalidNumber() {
+    public void payInvalidNumber() {
         var tourPage = new TourPage();
         var payCard = tourPage.payCard();
         var invalidCard = DataHelper.getInvalidNumber();
@@ -107,27 +107,27 @@ public class PaymentTest {
 
     @DisplayName("7.Card - Wrong year.")
     @Test
-    public void PayWrongYear() {
+    public void payWrongYear() {
         var tourPage = new TourPage();
         var payCard = tourPage.payCard();
         var invalidCard = DataHelper.getWrongYear();
         payCard.enterCardData(invalidCard);
-        payCard.invalidDate();
+        payCard.invalidCardFormat();
     }
 
     @DisplayName("8.Card - Wrong month.")
     @Test
-    public void PayWrongMonth() {
+    public void payWrongMonth() {
         var tourPage = new TourPage();
         var payCard = tourPage.payCard();
         var invalidCard = DataHelper.getWrongMonth();
         payCard.enterCardData(invalidCard);
-        payCard.invalidDate();
+        payCard.invalidCardFormat();
     }
 
     @DisplayName("9.Сard - Numeric holder's name.")
     @Test
-    public void PayNumericHolder() {
+    public void payNumericHolder() {
         var tourPage = new TourPage();
         var payCard = tourPage.payCard();
         var invalidCard = DataHelper.getNumericName();
@@ -137,7 +137,7 @@ public class PaymentTest {
 
     @DisplayName("10.Card - Invalid CVV.")
     @Test
-    public void PayInvalidCVV() {
+    public void payInvalidCVV() {
         var tourPage = new TourPage();
         var payCard = tourPage.payCard();
         var invalidCard = DataHelper.getInvalidCVV();
@@ -147,7 +147,7 @@ public class PaymentTest {
 
     @DisplayName("11.Card - Zero card number.")
     @Test
-    public void PayZeroNumberCard() {
+    public void payZeroNumberCard() {
         var tourPage = new TourPage();
         var payCard = tourPage.payCard();
         var invalidCard = DataHelper.getZeroCard();
@@ -157,7 +157,7 @@ public class PaymentTest {
 
     @DisplayName("12.Card - Zero month.")
     @Test
-    public void PayZeroMonth() {
+    public void payZeroMonth() {
         var tourPage = new TourPage();
         var payCard = tourPage.payCard();
         var invalidCard = DataHelper.getZeroMonth();
@@ -167,7 +167,7 @@ public class PaymentTest {
 
     @DisplayName("13.Card - Zero CVV")
     @Test
-    public void PayZeroCVV() {
+    public void payZeroCVV() {
         var tourPage = new TourPage();
         var payCard = tourPage.payCard();
         var invalidCard = DataHelper.getZeroCVV();

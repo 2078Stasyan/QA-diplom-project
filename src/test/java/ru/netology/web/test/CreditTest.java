@@ -3,14 +3,18 @@ package ru.netology.web.test;
 import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.logevents.SelenideLogger;
 import io.qameta.allure.selenide.AllureSelenide;
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.DisplayName;
 import ru.netology.web.data.DataHelper;
 import ru.netology.web.data.SQLunits;
 import ru.netology.web.page.TourPage;
 
 import static com.codeborne.selenide.Selenide.open;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static ru.netology.web.data.SQLunits.*;
+
 
 public class CreditTest {
 
@@ -37,37 +41,35 @@ public class CreditTest {
 
     @DisplayName("1.Successful credit purchase")
     @Test
-    public void ConfirmCreditApprovedCard() {
+    public void confirmCreditApprovedCard() {
         var tourPage = new TourPage();
         var buyCredit = tourPage.buyCredit();
         var approvedCardInformation = DataHelper.getValidCard();
         buyCredit.enterCreditCardData(approvedCardInformation);
         buyCredit.successfulCreditCardPayment();
 
-        var paymentId = getPaymentId();
         var expectedStatus = "APPROVED";
-        var actualStatus = getStatusForPaymentWithCreditCard(paymentId);
+        var actualStatus = SQLunits.getCreditPaymentStatus();
         assertEquals(expectedStatus, actualStatus);
     }
 
     @DisplayName("2.Credit - Declined card.")
     @Test
-    public void CreditDeclinedCard() {
+    public void creditDeclinedCard() {
         var tourPage = new TourPage();
         var buyCredit = tourPage.buyCredit();
         var declinedCardInformation = DataHelper.getDeclinedCard();
         buyCredit.enterCreditCardData(declinedCardInformation);
         buyCredit.notSuccessfulCreditCardPayment();
 
-        var paymentId = getPaymentId();
         var expectedStatus = "DECLINED";
-        var actualStatus = getStatusForPaymentWithDebitCard(paymentId);
+        var actualStatus = SQLunits.getCreditPaymentStatus();
         assertEquals(expectedStatus, actualStatus);
     }
 
     @DisplayName("3.Credit - All blank data.")
     @Test
-    public void CreditEmptyForm() {
+    public void creditEmptyForm() {
         var tourPage = new TourPage();
         var buyCredit = tourPage.buyCredit();
         var emptyCardInformation = DataHelper.getAllFieldsEmpty();
@@ -77,7 +79,7 @@ public class CreditTest {
 
     @DisplayName("4.Credit - Expired year.")
     @Test
-    public void CreditExpiredYear() {
+    public void creditExpiredYear() {
         var tourPage = new TourPage();
         var buyCredit = tourPage.buyCredit();
         var invalidCard = DataHelper.getExpiredYear();
@@ -87,7 +89,7 @@ public class CreditTest {
 
     @DisplayName("5.Credit - Expired month.")
     @Test
-    public void CreditExpiredMonth() {
+    public void creditExpiredMonth() {
         var tourPage = new TourPage();
         var buyCredit = tourPage.buyCredit();
         var invalidCard = DataHelper.getExpiredMonth();
@@ -97,7 +99,7 @@ public class CreditTest {
 
     @DisplayName("6.Credit - Invalid card number.")
     @Test
-    public void CreditInvalidNumber() {
+    public void creditInvalidNumber() {
         var tourPage = new TourPage();
         var buyCredit = tourPage.buyCredit();
         var invalidCard = DataHelper.getInvalidNumber();
@@ -107,22 +109,22 @@ public class CreditTest {
 
     @DisplayName("7.Credit - Wrong year.")
     @Test
-    public void CreditWrongYear() {
+    public void creditWrongYear() {
         var tourPage = new TourPage();
         var buyCredit = tourPage.buyCredit();
         var invalidCard = DataHelper.getWrongYear();
         buyCredit.enterCreditCardData(invalidCard);
-        buyCredit.invalidDate();
+        buyCredit.invalidCreditFormat();
     }
 
     @DisplayName("8.Credit - Wrong month.")
     @Test
-    public void CreditWrongMonth() {
+    public void creditWrongMonth() {
         var tourPage = new TourPage();
         var buyCredit = tourPage.buyCredit();
         var invalidCard = DataHelper.getWrongMonth();
         buyCredit.enterCreditCardData(invalidCard);
-        buyCredit.invalidDate();
+        buyCredit.invalidCreditFormat();
     }
 
     @DisplayName("9.Сredit - Numeric holder's name.")
@@ -137,7 +139,7 @@ public class CreditTest {
 
     @DisplayName("10.Credit - Invalid CVV.")
     @Test
-    public void CreditInvalidCVV() {
+    public void creditInvalidCVV() {
         var tourPage = new TourPage();
         var buyCredit = tourPage.buyCredit();
         var invalidCard = DataHelper.getInvalidCVV();
@@ -147,7 +149,7 @@ public class CreditTest {
 
     @DisplayName("11.Credit - Zero card number.")
     @Test
-    public void CreditZeroNumberCard() {
+    public void creditZeroNumberCard() {
         var tourPage = new TourPage();
         var buyCredit = tourPage.buyCredit();
         var invalidCard = DataHelper.getZeroCard();
@@ -157,7 +159,7 @@ public class CreditTest {
 
     @DisplayName("12.Credit- Zero month.")
     @Test
-    public void CreditZeroMonth() {
+    public void creditZeroMonth() {
         var tourPage = new TourPage();
         var buyCredit = tourPage.buyCredit();
         var invalidCard = DataHelper.getZeroMonth();
@@ -167,7 +169,7 @@ public class CreditTest {
 
     @DisplayName("13.Credit - Zero CVV")
     @Test
-    public void CreditZeroCVV() {
+    public void creditZeroCVV() {
         var tourPage = new TourPage();
         var buyCredit = tourPage.buyCredit();
         var invalidCard = DataHelper.getZeroCVV();

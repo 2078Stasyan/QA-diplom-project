@@ -1,41 +1,45 @@
 package ru.netology.web.data;
 
-import lombok.Value;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import com.github.javafaker.Faker;
+import java.util.Locale;
 
 public class DataGenerator {
-    private final LocalDate actualData = LocalDate.now();
-    private final DateTimeFormatter formatterYears = DateTimeFormatter.ofPattern("yy");
-    private final DateTimeFormatter formatterMonth = DateTimeFormatter.ofPattern("MM");
 
-    public Year shiftYear(int numberOfYears) {
-        LocalDate newDate = actualData.plusYears(numberOfYears);
-        return new Year(formatterYears.format(newDate));
+    private static final Faker fakerEn = new Faker(new Locale("en"));
+
+    public static String getValidYear() {
+        return LocalDate.now().format(DateTimeFormatter.ofPattern("yy"));
     }
 
-    public Year wrongYear(int numberOfWrongY) {
-        LocalDate wrongDate = actualData.plusYears(numberOfWrongY);
-        return new Year(formatterYears.format(wrongDate));
+    public static String getValidMonth() {
+        return LocalDate.now().format(DateTimeFormatter.ofPattern("MM"));
     }
 
-    public Month shiftMonth(int numberOfMonths) {
-        LocalDate newDate = actualData.plusMonths(numberOfMonths);
-        return new Month(formatterMonth.format(newDate));
+    public static String getPastYear() {
+        return LocalDate.now().minusYears(1).format(DateTimeFormatter.ofPattern("yy"));
     }
 
-    public Month wrongMonth(int numberOfWrongM) {
-        LocalDate wrongDate = actualData.plusYears(numberOfWrongM);
-        return new Month(formatterYears.format(wrongDate));
+    public static String getPastMonth() {
+        return LocalDate.now().minusMonths(1).format(DateTimeFormatter.ofPattern("MM"));
     }
 
-    @Value
-    public static class Year {
-        private String year;
+    public static String getNextYear() {
+        return LocalDate.now().plusYears(2).format(DateTimeFormatter.ofPattern("yy"));
     }
 
-    @Value
-    public static class Month {
-        private String month;
+    public static String getNextMonth() {
+        return LocalDate.now().plusMonths(3).format(DateTimeFormatter.ofPattern("MM"));
     }
+
+    public static String getInvalidFormatMonth() {
+        return fakerEn.number().digit();
+    }
+
+    public static String getInvalidFormatYear() {
+        return fakerEn.number().digit();
+    }
+
 }
+
