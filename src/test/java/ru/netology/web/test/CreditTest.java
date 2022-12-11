@@ -30,7 +30,8 @@ public class CreditTest {
 
     @BeforeEach
     public void openChrome() {
-        open("http://localhost:8080/");
+        String url = System.getProperty("sut.url");
+        open(url);
         Configuration.holdBrowserOpen = true;
     }
 

@@ -27,33 +27,29 @@ public class SQLunits {
         var order = "DELETE FROM order_entity";
         var payment = "DELETE FROM payment_entity";
 
-        try (var conn = getConnection()) {
+        var conn = getConnection();
 
-            runner.update(conn, creditRequest);
-            runner.update(conn, order);
-            runner.update(conn, payment);
-
-        }
+        runner.update(conn, creditRequest);
+        runner.update(conn, order);
+        runner.update(conn, payment);
     }
 
     @SneakyThrows
     public static String getDebitPaymentStatus() {
         QueryRunner runner = new QueryRunner();
         String SqlStatus = "SELECT status FROM payment_entity ORDER BY created DESC LIMIT 1";
-        try (var conn = getConnection()) {
-            String result = runner.query(conn, SqlStatus, new ScalarHandler<>());
-            return result;
-        }
+        var conn = getConnection();
+            return runner.query(conn, SqlStatus, new ScalarHandler<>());
+
     }
 
     @SneakyThrows
     public static String getCreditPaymentStatus() {
         QueryRunner runner = new QueryRunner();
         String SqlStatus = "SELECT status FROM credit_request_entity ORDER BY created DESC LIMIT 1";
-        try (var connection = getConnection()) {
-            String result = runner.query(connection, SqlStatus, new ScalarHandler<>());
-            return result;
-        }
+        var connection = getConnection();
+            return  runner.query(connection, SqlStatus, new ScalarHandler<>());
+
     }
 }
 
