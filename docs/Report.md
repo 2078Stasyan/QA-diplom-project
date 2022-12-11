@@ -31,7 +31,7 @@
 ![image](https://user-images.githubusercontent.com/104335185/206892683-1f8d476a-87d5-4e1d-92fe-1202893fbd82.png)
 
 * Отчет по результатам тестирования Allure:
-* 
+
 ![image](https://user-images.githubusercontent.com/104335185/206892750-ec0a688b-fb49-4edb-9d88-e758ad7d7172.png)
 
 ***Отчет при конфигурации с базой данных PostgreSQL:***
