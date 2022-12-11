@@ -1,4 +1,12 @@
 # Дипломный проект профессии «Тестировщик»
+
+## Документы
+
+* [План автоматизации](https://github.com/2078Stasyan/QA-diplom-project/blob/master/docs/Plan.md)
+* [Отчет по итогам тестирования](https://github.com/2078Stasyan/QA-diplom-project/blob/master/docs/Report.md)
+* [Отчет по итогам автоматизации](https://github.com/2078Stasyan/QA-diplom-project/blob/master/docs/Summary.md)
+
+## Описание
 Данный проект представляет собой тестирование веб-сервиса 
 покупки тура "Путешествие дня - Марракeш" (предоставленного 
 в виде приложения). Приложение предлагает купить тур по 
